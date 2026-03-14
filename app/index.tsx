@@ -165,7 +165,7 @@ export default function WelcomeScreen() {
             <>
                 <Animated.View style={[styles.bellIcon, { opacity: bellOpacity }]}>
                     <TouchableOpacity onPress={handleBellPress} disabled={isBellAnimating}>
-                        <MaterialCommunityIcons name="bell" color="#ffffff" size={23} />
+                        <MaterialCommunityIcons name="bell" color="#ffffff" size={21} />
                     </TouchableOpacity>
                 </Animated.View>
 
