@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Animated, TouchableOpacity, Easing, PanResponde
 import { useFonts, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 
 const SWIPE_WIDTH = 300;
 const THUMB_WIDTH = 60;
@@ -20,7 +21,7 @@ const CustomSwipeButton = ({ onSwipeSuccess }: CustomSwipeButtonProps) => {
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
-                Animated.timing(arrowTranslateX, { toValue: 10, duration: 500, useNativeDriver: true, easing: Easing.inOut(Easing.ease) }),
+                Animated.timing(arrowTranslateX, { toValue: 5, duration: 500, useNativeDriver: true, easing: Easing.inOut(Easing.ease) }),
                 Animated.timing(arrowTranslateX, { toValue: 0, duration: 500, useNativeDriver: true, easing: Easing.inOut(Easing.ease) })
             ])
         ).start();
@@ -49,7 +50,7 @@ const CustomSwipeButton = ({ onSwipeSuccess }: CustomSwipeButtonProps) => {
     ).current;
 
     return (
-        <View style={styles.swipeContainer}>
+        <BlurView style={styles.swipeContainer} tint="dark" intensity={0}>
             <Text style={styles.swipeTitle}>Slide to unlock bike</Text>
             <Animated.View
                 style={[{ transform: [{ translateX: pan }] }, styles.swipeThumb]}
@@ -59,7 +60,7 @@ const CustomSwipeButton = ({ onSwipeSuccess }: CustomSwipeButtonProps) => {
                     <MaterialCommunityIcons name="arrow-right" color="white" size={24} />
                 </Animated.View>
             </Animated.View>
-        </View>
+        </BlurView>
     );
 };
 
@@ -108,7 +109,7 @@ export default function WelcomeScreen() {
         if (i >= fullText.length) {
           clearInterval(intervalId);
           Animated.timing(translateYAnim, {
-            toValue: -220, 
+            toValue: -250, 
             duration: 1000,
             useNativeDriver: true,
           }).start(() => {
@@ -145,12 +146,16 @@ export default function WelcomeScreen() {
             <View style={styles.poweredByWrapper}>
                 <View style={styles.poweredByContainer}>
                     <Animated.View style={{ transform: [{ translateY: line1Anim }] }}>
-                        <Text style={styles.poweredByText}>Powered by Tech</Text>
+                        <Text style={styles.poweredByText}>
+                            Powered by <Text style={styles.highlightedText}>Tech</Text>
+                        </Text>
                     </Animated.View>
                 </View>
                 <View style={styles.poweredByContainer}>
                     <Animated.View style={{ transform: [{ translateY: line2Anim }] }}>
-                        <Text style={styles.poweredByText}>Driven with Pride</Text>
+                        <Text style={styles.poweredByText}>
+                            Driven with <Text style={styles.highlightedText}>Pride</Text>
+                        </Text>
                     </Animated.View>
                 </View>
             </View>
@@ -160,7 +165,7 @@ export default function WelcomeScreen() {
             <>
                 <Animated.View style={[styles.bellIcon, { opacity: bellOpacity }]}>
                     <TouchableOpacity onPress={handleBellPress} disabled={isBellAnimating}>
-                        <MaterialCommunityIcons name="bell" color="#8c00ff" size={23} />
+                        <MaterialCommunityIcons name="bell" color="#ffffff" size={23} />
                     </TouchableOpacity>
                 </Animated.View>
 
@@ -180,13 +185,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: '#8c00ff',
+    color: '#888888',
     fontSize: 18,
     fontFamily: 'Montserrat_500Medium',
   },
   poweredByWrapper: {
       position: 'absolute',
-      transform: [{ translateY: -145 }],
+      transform: [{ translateY: -175 }],
   },
   poweredByContainer: {
       overflow: 'hidden',
@@ -198,6 +203,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 0,
   },
+  highlightedText: {
+    color: '#8c00ff',
+  },
   bellIcon: {
       position: 'absolute',
       top: 50,
@@ -208,21 +216,22 @@ const styles = StyleSheet.create({
       bottom: 70,
       width: SWIPE_WIDTH,
       height: THUMB_WIDTH,
+      borderRadius: 40,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
   },
   swipeContainer: {
     width: SWIPE_WIDTH,
     height: THUMB_WIDTH,
-    backgroundColor: 'rgba(55, 0, 71, 0.2)',
-    borderRadius: 40,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 0.4,
-    borderColor: 'rgba(255, 255, 255, 0.3)', 
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    overflow: 'hidden',
   },
   swipeTitle: {
     fontFamily: 'Montserrat_500Medium',
