@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, TouchableOpacity, Easing, PanResponder } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, StyleSheet, Animated, TouchableOpacity, Easing, PanResponder, ImageBackground } from 'react-native';
 import { useFonts, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -21,7 +20,7 @@ const CustomSwipeButton = ({ onSwipeSuccess }: CustomSwipeButtonProps) => {
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
-                Animated.timing(arrowTranslateX, { toValue: 5, duration: 500, useNativeDriver: true, easing: Easing.inOut(Easing.ease) }),
+                Animated.timing(arrowTranslateX, { toValue: 10, duration: 500, useNativeDriver: true, easing: Easing.inOut(Easing.ease) }),
                 Animated.timing(arrowTranslateX, { toValue: 0, duration: 500, useNativeDriver: true, easing: Easing.inOut(Easing.ease) })
             ])
         ).start();
@@ -57,7 +56,7 @@ const CustomSwipeButton = ({ onSwipeSuccess }: CustomSwipeButtonProps) => {
                 {...panResponder.panHandlers}
             >
                 <Animated.View style={{ transform: [{ translateX: arrowTranslateX }] }}>
-                    <MaterialCommunityIcons name="arrow-right" color="black" size={24} />
+                    <MaterialCommunityIcons name="arrow-right" color="white" size={24} />
                 </Animated.View>
             </Animated.View>
         </View>
@@ -134,8 +133,10 @@ export default function WelcomeScreen() {
   }
 
   return (
-    <LinearGradient colors={['#0D0D0D', 'rgb(0, 0, 0)']}
-      style={styles.container}>
+    <ImageBackground 
+        source={{ uri: 'https://image2url.com/r2/default/images/1773477843779-19831b65-912e-4467-adeb-a0b64a1a0585.png' }}
+        style={styles.container}
+    >
         <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: translateYAnim }] }}>
             <Text style={styles.text}>{text}</Text>
         </Animated.View>
@@ -159,7 +160,7 @@ export default function WelcomeScreen() {
             <>
                 <Animated.View style={[styles.bellIcon, { opacity: bellOpacity }]}>
                     <TouchableOpacity onPress={handleBellPress} disabled={isBellAnimating}>
-                        <MaterialCommunityIcons name="bell" color="#d5ff40" size={25} />
+                        <MaterialCommunityIcons name="bell" color="#8c00ff" size={23} />
                     </TouchableOpacity>
                 </Animated.View>
 
@@ -168,7 +169,7 @@ export default function WelcomeScreen() {
                 </View>
             </>
         )}
-    </LinearGradient>
+    </ImageBackground>
   );
 }
 
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: '#d5ff40',
+    color: '#8c00ff',
     fontSize: 18,
     fontFamily: 'Montserrat_500Medium',
   },
@@ -211,18 +212,16 @@ const styles = StyleSheet.create({
   swipeContainer: {
     width: SWIPE_WIDTH,
     height: THUMB_WIDTH,
-    backgroundColor: 'rgba(110, 110, 110, 0.2)', // Increased opacity slightly
+    backgroundColor: 'rgba(55, 0, 71, 0.2)',
     borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 0.4,
-    borderColor: 'rgba(255, 255, 255, 0.3)', // Highlight border
-    // Shadow for iOS
+    borderColor: 'rgba(255, 255, 255, 0.3)', 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    // Elevation for Android
     elevation: 3,
   },
   swipeTitle: {
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
   swipeThumb: {
     width: 50,
     height: 50,
-    backgroundColor: '#d5ff40',
+    backgroundColor: '#8c00ff',
     borderRadius: 40,
     position: 'absolute',
     left: 5,
